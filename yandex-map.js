@@ -4,18 +4,127 @@
 
   const section = container.closest('.project-map');
   const fallback = section?.querySelector('[data-map-fallback]');
-  let started = false;
+  const panel = section?.querySelector('[data-map-projects-panel]');
+  const panelTitle = section?.querySelector('[data-map-city-title]');
+  const panelCount = section?.querySelector('[data-map-city-count]');
+  const projectList = section?.querySelector('[data-map-project-list]');
+  const panelClose = section?.querySelector('[data-map-panel-close]');
+  const cityButtons = Array.from(section?.querySelectorAll('[data-map-city]') || []);
 
-  const projects = [
-    { title: 'Москва', count: '1 проект', coordinates: [55.7558, 37.6173], side: 'right', offset: [-10, -10] },
-    { title: 'Екатеринбург', count: '1 проект', coordinates: [56.8389, 60.6057], side: 'right-up', offset: [-10, -10] },
-    { title: 'Челябинск', count: '7 проектов', coordinates: [55.1644, 61.4368], side: 'right-down', offset: [-10, -10] },
-    { title: 'Миасс', count: '1 проект', coordinates: [55.0450, 60.1083], side: 'left-down', offset: [-10, -10] },
-    { title: 'Увильды', count: '1 проект', coordinates: [55.5260, 60.5050], side: 'left-up', offset: [-10, -10] },
-    { title: 'Челябинская область', count: '1 проект', coordinates: [54.7400, 61.2000], side: 'right-down-far', offset: [-10, -10] },
-    { title: 'Массандра', count: '1 проект', coordinates: [44.5090, 34.1880], side: 'right', offset: [-10, -10] },
-    { title: 'Тель-Авив', count: '1 проект', coordinates: [32.0853, 34.7818], side: 'right', offset: [-10, -10] }
+  let started = false;
+  let mapInstance = null;
+
+  const cities = [
+    {
+      id: 'moscow', title: 'Москва', coordinates: [55.7558, 37.6173], side: 'right', offset: [-10, -10],
+      projects: [{ index: 6, title: 'Летнее кафе' }]
+    },
+    {
+      id: 'ekaterinburg', title: 'Екатеринбург', coordinates: [56.8389, 60.6057], side: 'right-up', offset: [-10, -10],
+      projects: [{ index: 4, title: 'Книжный магазин и кофейня' }]
+    },
+    {
+      id: 'chelyabinsk', title: 'Челябинск', coordinates: [55.1644, 61.4368], side: 'right-down', offset: [-10, -10],
+      projects: [
+        { index: 2, title: 'Баня' },
+        { index: 3, title: 'Квартира на Лесопарковой' },
+        { index: 7, title: 'Апартаменты' },
+        { index: 10, title: 'Свадебный шоурум' },
+        { index: 11, title: 'Home Sweet Home' },
+        { index: 12, title: 'Квартира — проект 1' },
+        { index: 13, title: 'Квартира — проект 2' }
+      ]
+    },
+    {
+      id: 'miass', title: 'Миасс', coordinates: [55.0450, 60.1083], side: 'left-down', offset: [-10, -10],
+      projects: [{ index: 0, title: 'Квартира Хюгге' }]
+    },
+    {
+      id: 'uvildy', title: 'Увильды', coordinates: [55.5260, 60.5050], side: 'left-up', offset: [-10, -10],
+      projects: [{ index: 1, title: 'Салон красоты' }]
+    },
+    {
+      id: 'chelyabinsk-region', title: 'Челябинская область', coordinates: [54.7400, 61.2000], side: 'right-down-far', offset: [-10, -10],
+      projects: [{ index: 5, title: 'Салон массажа и медитации' }]
+    },
+    {
+      id: 'massandra', title: 'Массандра', coordinates: [44.5090, 34.1880], side: 'right', offset: [-10, -10],
+      projects: [{ index: 8, title: 'Эстетическая косметология' }]
+    },
+    {
+      id: 'tel-aviv', title: 'Тель-Авив', coordinates: [32.0853, 34.7818], side: 'right', offset: [-10, -10],
+      projects: [{ index: 9, title: 'Загородный дом' }]
+    }
   ];
+
+  function projectWord(count) {
+    if (count === 1) return '1 проект';
+    if (count >= 2 && count <= 4) return `${count} проекта`;
+    return `${count} проектов`;
+  }
+
+  function setActiveCity(cityId) {
+    cityButtons.forEach((button) => {
+      const active = button.dataset.mapCity === cityId;
+      button.classList.toggle('is-active', active);
+      button.setAttribute('aria-pressed', String(active));
+    });
+  }
+
+  function closeProjectPanel() {
+    if (panel) panel.hidden = true;
+    setActiveCity('');
+  }
+
+  function goToProject(index) {
+    window.dispatchEvent(new CustomEvent('313:project-select', { detail: { index } }));
+  }
+
+  function showCity(cityId, options = {}) {
+    const city = cities.find((item) => item.id === cityId);
+    if (!city || !panel || !panelTitle || !panelCount || !projectList) return;
+
+    panelTitle.textContent = city.title;
+    panelCount.textContent = projectWord(city.projects.length);
+    projectList.replaceChildren();
+
+    city.projects.forEach((project, order) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'project-map__project';
+      button.dataset.projectIndex = String(project.index);
+      button.innerHTML = `
+        <span class="project-map__project-index">${String(order + 1).padStart(2, '0')}</span>
+        <span class="project-map__project-title"></span>
+        <span class="project-map__project-arrow" aria-hidden="true">↗</span>
+      `;
+      button.querySelector('.project-map__project-title').textContent = project.title;
+      button.setAttribute('aria-label', `Перейти к проекту «${project.title}»`);
+      button.addEventListener('click', () => goToProject(project.index));
+      projectList.append(button);
+    });
+
+    panel.hidden = false;
+    setActiveCity(city.id);
+
+    if (mapInstance && options.centerMap !== false) {
+      mapInstance.panTo(city.coordinates, { duration: 350, flying: true });
+    }
+
+    if (window.innerWidth < 700 && options.scrollOnMobile !== false) {
+      window.requestAnimationFrame(() => panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' }));
+    }
+  }
+
+  cityButtons.forEach((button) => {
+    button.setAttribute('aria-pressed', 'false');
+    button.addEventListener('click', () => showCity(button.dataset.mapCity, { scrollOnMobile: true }));
+  });
+
+  panelClose?.addEventListener('click', closeProjectPanel);
+  window.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && panel && !panel.hidden) closeProjectPanel();
+  });
 
   function showFallback() {
     container.hidden = true;
@@ -58,7 +167,7 @@
           minZoom: 2,
           maxZoom: 12
         });
-
+        mapInstance = map;
         map.behaviors.disable('scrollZoom');
 
         const markerLayout = window.ymaps.templateLayoutFactory.createClass(
@@ -73,22 +182,22 @@
         );
 
         const collection = new window.ymaps.GeoObjectCollection();
-        projects.forEach((project) => {
-          const placemark = new window.ymaps.Placemark(project.coordinates, {
-            title: project.title,
-            count: project.count,
-            side: project.side,
-            balloonContentHeader: project.title,
-            balloonContentBody: project.count
+        cities.forEach((city) => {
+          const placemark = new window.ymaps.Placemark(city.coordinates, {
+            title: city.title,
+            count: projectWord(city.projects.length),
+            side: city.side
           }, {
             iconLayout: markerLayout,
-            iconOffset: project.offset,
+            iconOffset: city.offset,
             iconShape: {
               type: 'Rectangle',
               coordinates: [[-140, -60], [190, 80]]
             },
             hideIconOnBalloonOpen: false
           });
+
+          placemark.events.add('click', () => showCity(city.id, { scrollOnMobile: true }));
           collection.add(placemark);
         });
 
