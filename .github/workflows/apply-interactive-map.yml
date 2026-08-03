@@ -1,0 +1,36 @@
+name: Apply interactive map navigation
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout pull request branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+      - name: Apply interactive map markup and styles
+        run: python scripts/apply_interactive_map.py
+      - name: Validate generated files
+        run: |
+          grep -q 'data-map-projects-panel' index.html
+          grep -q 'src="project-navigation.js"' index.html
+          grep -q '313 interactive map project navigation' hero-tilda.css
+          node --check yandex-map.js
+          node --check project-navigation.js
+      - name: Commit generated files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html hero-tilda.css
+          if ! git diff --cached --quiet; then
+            git commit -m "Add city project lists and map navigation"
+            git push origin HEAD:${{ github.head_ref }}
+          fi
