@@ -79,29 +79,38 @@
           <p class="eyebrow">География проектов</p>
           <h2 id="geography-title">Карта проектов</h2>
         </div>
-        <p class="section-intro">Проектируем пространства в России и за её пределами. На карте отмечены города и регионы реализованных проектов.</p>
+        <p class="section-intro">Нажмите на город, чтобы посмотреть проекты. Из списка можно сразу перейти к нужной работе.</p>
       </div>
-      <div class="project-map__frame reveal">
-        <div id="yandex-project-map" class="project-map__canvas" data-yandex-map data-api-key="" aria-label="Интерактивная Яндекс.Карта с географией проектов студии 313"></div>
-        <div class="project-map__fallback" data-map-fallback hidden>
-          <p>Карта временно недоступна.</p>
-          <a href="https://yandex.ru/maps/?ll=47.500000%2C51.500000&z=3" target="_blank" rel="noreferrer">Открыть географию в Яндекс.Картах ↗</a>
+      <div class="project-map__interactive reveal">
+        <div class="project-map__frame">
+          <div id="yandex-project-map" class="project-map__canvas" data-yandex-map data-api-key="" aria-label="Интерактивная Яндекс.Карта с географией проектов студии 313"></div>
+          <div class="project-map__fallback" data-map-fallback hidden></div>
         </div>
+        <aside class="project-map__projects" data-map-projects-panel hidden aria-live="polite" aria-label="Проекты выбранного города">
+          <div class="project-map__projects-head">
+            <div>
+              <p class="eyebrow">Проекты города</p>
+              <h3 data-map-city-title></h3>
+              <p data-map-city-count></p>
+            </div>
+            <button type="button" class="project-map__projects-close" data-map-panel-close aria-label="Закрыть список проектов">×</button>
+          </div>
+          <div class="project-map__projects-list" data-map-project-list></div>
+        </aside>
       </div>
       <div class="project-map__legend reveal" aria-label="Города и количество проектов">
-        <div><span>Москва</span><strong>1 проект</strong></div>
-        <div><span>Екатеринбург</span><strong>1 проект</strong></div>
-        <div><span>Челябинск</span><strong>7 проектов</strong></div>
-        <div><span>Миасс</span><strong>1 проект</strong></div>
-        <div><span>Увильды</span><strong>1 проект</strong></div>
-        <div><span>Челябинская область</span><strong>1 проект</strong></div>
-        <div><span>Массандра</span><strong>1 проект</strong></div>
-        <div><span>Тель-Авив</span><strong>1 проект</strong></div>
+        <button type="button" data-map-city="moscow"><span>Москва</span><strong>1 проект</strong></button>
+        <button type="button" data-map-city="ekaterinburg"><span>Екатеринбург</span><strong>1 проект</strong></button>
+        <button type="button" data-map-city="chelyabinsk"><span>Челябинск</span><strong>7 проектов</strong></button>
+        <button type="button" data-map-city="miass"><span>Миасс</span><strong>1 проект</strong></button>
+        <button type="button" data-map-city="uvildy"><span>Увильды</span><strong>1 проект</strong></button>
+        <button type="button" data-map-city="chelyabinsk-region"><span>Челябинская область</span><strong>1 проект</strong></button>
+        <button type="button" data-map-city="massandra"><span>Массандра</span><strong>1 проект</strong></button>
+        <button type="button" data-map-city="tel-aviv"><span>Тель-Авив</span><strong>1 проект</strong></button>
       </div>
     </section>
 
-
-    <section class="scope section" id="scope" aria-labelledby="scope-title">
+<section class="scope section" id="scope" aria-labelledby="scope-title">
       <div class="section-head reveal">
         <div><p class="eyebrow">От идеи до реализации</p><h2 id="scope-title">Состав полного<br />дизайн-проекта</h2></div>
         <p class="section-intro">Вместо длинной ленты документов — компактная последовательность этапов. Всё важное осталось, но теперь это можно понять за минуту.</p>
@@ -169,5 +178,6 @@
   </dialog>
   <script src="yandex-map.js" defer></script>
   <script src="script.js" defer></script>
+  <script src="project-navigation.js" defer></script>
 </body>
 </html>
