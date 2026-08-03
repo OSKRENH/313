@@ -73,6 +73,34 @@
       </div>
     </section>
 
+    <section class="section section-dark project-map" id="geography" aria-labelledby="geography-title">
+      <div class="section-head reveal">
+        <div>
+          <p class="eyebrow">География проектов</p>
+          <h2 id="geography-title">Карта проектов</h2>
+        </div>
+        <p class="section-intro">Проектируем пространства в России и за её пределами. На карте отмечены города и регионы реализованных проектов.</p>
+      </div>
+      <div class="project-map__frame reveal">
+        <div id="yandex-project-map" class="project-map__canvas" data-yandex-map data-api-key="" aria-label="Интерактивная Яндекс.Карта с географией проектов студии 313"></div>
+        <div class="project-map__fallback" data-map-fallback hidden>
+          <p>Карта временно недоступна.</p>
+          <a href="https://yandex.ru/maps/?ll=47.500000%2C51.500000&z=3" target="_blank" rel="noreferrer">Открыть географию в Яндекс.Картах ↗</a>
+        </div>
+      </div>
+      <div class="project-map__legend reveal" aria-label="Города и количество проектов">
+        <div><span>Москва</span><strong>1 проект</strong></div>
+        <div><span>Екатеринбург</span><strong>1 проект</strong></div>
+        <div><span>Челябинск</span><strong>7 проектов</strong></div>
+        <div><span>Миасс</span><strong>1 проект</strong></div>
+        <div><span>Увильды</span><strong>1 проект</strong></div>
+        <div><span>Челябинская область</span><strong>1 проект</strong></div>
+        <div><span>Массандра</span><strong>1 проект</strong></div>
+        <div><span>Тель-Авив</span><strong>1 проект</strong></div>
+      </div>
+    </section>
+
+
     <section class="scope section" id="scope" aria-labelledby="scope-title">
       <div class="section-head reveal">
         <div><p class="eyebrow">От идеи до реализации</p><h2 id="scope-title">Состав полного<br />дизайн-проекта</h2></div>
@@ -119,32 +147,19 @@
         </form>
       </div>
     </section>
+</main>
 
-    <section class="section section-dark project-map" id="geography" aria-labelledby="geography-title">
-      <div class="section-head reveal">
-        <div>
-          <p class="eyebrow">География проектов</p>
-          <h2 id="geography-title">Карта проектов</h2>
-        </div>
-        <p class="section-intro">Проектируем пространства в России и за её пределами. На карте отмечены города и регионы уже реализованных проектов.</p>
-      </div>
-      <div class="project-map__viewport reveal" tabindex="0" aria-label="Карта проектов. На мобильном устройстве карту можно двигать по горизонтали.">
-        <img src="assets/projects-map.svg" alt="Карта проектов студии 313: Москва, Екатеринбург, Челябинск, Миасс, Увильды, Массандра и Тель-Авив" loading="lazy" decoding="async" />
-      </div>
-      <div class="project-map__legend reveal" aria-label="Список городов и количества проектов">
-        <div><span>Москва</span><strong>1 проект</strong></div>
-        <div><span>Екатеринбург</span><strong>1 проект</strong></div>
-        <div><span>Челябинск</span><strong>7 проектов</strong></div>
-        <div><span>Миасс</span><strong>1 проект</strong></div>
-        <div><span>Увильды</span><strong>1 проект</strong></div>
-        <div><span>Челябинская область</span><strong>1 проект</strong></div>
-        <div><span>Массандра</span><strong>1 проект</strong></div>
-        <div><span>Тель-Авив</span><strong>1 проект</strong></div>
-      </div>
-    </section>
-  </main>
+  <footer class="site-footer">
+    <a class="footer-brand" href="#top" aria-label="313 — в начало сайта">
+      <img src="assets/logo.svg" alt="313" />
+    </a>
+    <p>© <span data-year></span> All Rights Reserved.</p>
+    <a class="back-to-top" href="#top" aria-label="Перейти в начало сайта">
+      <span class="back-to-top__icon" aria-hidden="true">↑</span>
+      <span>В начало</span>
+    </a>
+  </footer>
 
-  <footer class="site-footer"><a class="footer-brand" href="#top">313</a><p>© <span data-year></span> All Rights Reserved.</p><a href="#top">Наверх ↑</a></footer>
 
   <dialog class="project-dialog" data-project-dialog aria-labelledby="dialog-title">
     <div class="dialog-shell">
@@ -152,6 +167,7 @@
       <div class="dialog-gallery" data-dialog-gallery></div>
     </div>
   </dialog>
+  <script src="yandex-map.js" defer></script>
   <script src="script.js" defer></script>
 </body>
 </html>
