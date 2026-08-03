@@ -1,0 +1,39 @@
+name: Apply Yandex map and footer updates
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout pull request branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+      - name: Apply Yandex map and footer changes
+        run: |
+          python scripts/apply_yandex_map_footer.py
+          python scripts/restore_header_logo_reveal.py
+      - name: Validate generated files
+        run: |
+          grep -q 'id="yandex-project-map"' index.html
+          grep -q 'src="yandex-map.js"' index.html
+          grep -q '<img src="assets/logo.svg" alt="313"' index.html
+          grep -q 'class="back-to-top"' index.html
+          grep -q '313 Yandex map and SVG footer' hero-tilda.css
+          node --check yandex-map.js
+      - name: Commit generated site files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html hero-tilda.css
+          if ! git diff --cached --quiet; then
+            git commit -m "Use Yandex map under authors and upgrade footer"
+            git push origin HEAD:${{ github.head_ref }}
+          fi
