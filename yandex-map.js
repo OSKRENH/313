@@ -19,7 +19,25 @@
 
   function showFallback() {
     container.hidden = true;
-    if (fallback) fallback.hidden = false;
+    if (!fallback) return;
+
+    fallback.hidden = false;
+    fallback.style.display = 'block';
+    fallback.innerHTML = `
+      <iframe
+        title="Яндекс.Карта географии проектов студии 313"
+        src="https://yandex.ru/map-widget/v1/?ll=47.500000%2C51.500000&z=3"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        style="position:absolute;inset:0;width:100%;height:100%;border:0;filter:grayscale(1) sepia(.48) hue-rotate(104deg) saturate(.82) brightness(.62) contrast(1.14);"
+      ></iframe>
+      <a
+        href="https://yandex.ru/maps/?ll=47.500000%2C51.500000&z=3"
+        target="_blank"
+        rel="noreferrer"
+        style="position:absolute;right:18px;bottom:18px;padding:12px 16px;background:rgba(21,54,61,.92);border:1px solid rgba(184,215,207,.4);color:#eef0e8;"
+      >Открыть в Яндекс.Картах ↗</a>
+    `;
   }
 
   function initMap() {
