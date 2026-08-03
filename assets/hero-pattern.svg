@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" role="img" aria-labelledby="title desc">
+  <title id="title">313 hero background pattern</title>
+  <desc id="desc">Abstract vector floral pattern on dark teal background.</desc>
+  <rect width="1920" height="1080" fill="#123d45"/>
+  <g fill="none">
+    <ellipse cx="240" cy="675" rx="185" ry="94" transform="rotate(45 240 675)" fill="#045878"/>
+    <ellipse cx="430" cy="865" rx="185" ry="94" transform="rotate(45 430 865)" fill="#11aac9"/>
+    <ellipse cx="810" cy="865" rx="185" ry="94" transform="rotate(-45 810 865)" fill="#d8efee"/>
+    <ellipse cx="620" cy="675" rx="185" ry="94" transform="rotate(-45 620 675)" fill="#11b5d8"/>
+    <ellipse cx="810" cy="675" rx="185" ry="94" transform="rotate(45 810 675)" fill="#61b9aa"/>
+    <ellipse cx="1170" cy="675" rx="185" ry="94" transform="rotate(-45 1170 675)" fill="#12b7dd"/>
+    <ellipse cx="1360" cy="485" rx="185" ry="94" transform="rotate(-45 1360 485)" fill="#d9efeb"/>
+    <ellipse cx="1170" cy="295" rx="185" ry="94" transform="rotate(45 1170 295)" fill="#66c0b2"/>
+    <ellipse cx="1550" cy="295" rx="185" ry="94" transform="rotate(45 1550 295)" fill="#045b7b"/>
+    <ellipse cx="1740" cy="485" rx="185" ry="94" transform="rotate(-45 1740 485)" fill="#12b1d1"/>
+    <ellipse cx="1360" cy="675" rx="185" ry="94" transform="rotate(45 1360 675)" fill="#63b8a9"/>
+    <ellipse cx="1170" cy="865" rx="185" ry="94" transform="rotate(45 1170 865)" fill="#045878"/>
+    <ellipse cx="1360" cy="1055" rx="185" ry="94" transform="rotate(-45 1360 1055)" fill="#65b7a5"/>
+    <ellipse cx="1740" cy="865" rx="185" ry="94" transform="rotate(-45 1740 865)" fill="#11afcb"/>
+    <ellipse cx="1550" cy="1055" rx="185" ry="94" transform="rotate(45 1550 1055)" fill="#5fb8a4"/>
+  </g>
+</svg>
