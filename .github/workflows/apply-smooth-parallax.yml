@@ -1,0 +1,31 @@
+name: Apply smooth scroll and parallax
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout pull request branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+      - name: Apply smooth scroll and parallax
+        run: python scripts/add_smooth_parallax.py
+      - name: Validate JavaScript
+        run: node --check script.js
+      - name: Commit generated files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add script.js hero-tilda.css
+          if ! git diff --cached --quiet; then
+            git commit -m "Add smooth scrolling and image parallax"
+            git push origin HEAD:${{ github.head_ref }}
+          fi
